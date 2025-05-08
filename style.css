@@ -54,3 +54,8 @@ body{
     border: none;
     cursor: pointer;
 }
+
+.button:hover{
+    background: #0d00c7;
+    color: #ffffff;
+}

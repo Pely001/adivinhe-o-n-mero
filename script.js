@@ -11,36 +11,39 @@ let attemptsLeft = 3;
 
 // Adiciona o evento de clique ao botão
 submitButton.addEventListener('click', () => {
-    let userGuess;
-    do {
-        userGuess = parseInt(guessInput.value, 10);
+    const userGuess = parseInt(guessInput.value, 10);
 
-        // Verifica se o valor digitado é válido
-        if (isNaN(userGuess) || userGuess < 0 || userGuess > 10) {
-            messageElement.textContent = 'Por favor, insira um número válido entre 0 e 10.';
+    // Verifica se o valor digitado é válido
+    if (isNaN(userGuess) || userGuess < 0 || userGuess > 10) {
+        messageElement.textContent = 'Por favor, insira um número válido entre 0 e 10.';
+        return;
+    }
+
+    // Lógica do jogo com switch case
+    switch (true) {
+        case userGuess === randomNumber:
+            messageElement.textContent = 'Parabéns! Você acertou o número!';
+            submitButton.disabled = true; // Desativa o botão após acertar
             break;
-        }
 
-        // Lógica do jogo com switch case
-        switch (true) {
-            case userGuess === randomNumber:
-                messageElement.textContent = 'Parabéns! Você acertou o número!';
-                submitButton.disabled = true; // Desativa o botão após acertar
-                attemptsLeft = 0; // Encerra o loop
-                break;
+        default:
+            attemptsLeft--; // Reduz o número de tentativas restantes
+            if (attemptsLeft > 0) {
+                messageElement.textContent = `Errado! Restam ${attemptsLeft} tentativas.`;
+            } else {
+                messageElement.textContent = `Você perdeu! O número correto era ${randomNumber}.`;
+                submitButton.disabled = true; // Desativa o botão após esgotar as tentativas
+            }
+            break;
+    }
 
-            default:
-                attemptsLeft--; // Reduz o número de tentativas restantes
-                if (attemptsLeft > 0) {
-                    messageElement.textContent = `Errado! Restam ${attemptsLeft} tentativas.`;
-                } else {
-                    messageElement.textContent = `Você perdeu! O número correto era ${randomNumber}.`;
-                    submitButton.disabled = true; // Desativa o botão após esgotar as tentativas
-                }
-                break;
-        }
+    // Limpa o campo de entrada
+    guessInput.value = '';
+});
 
-        // Limpa o campo de entrada
-        guessInput.value = '';
-    } while (attemptsLeft > 0);
+// Adiciona o evento de teclado para ativar o botão com Enter
+guessInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        submitButton.click(); // Dispara o clique do botão
+    }
 });
