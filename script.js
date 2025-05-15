@@ -1,10 +1,11 @@
 // Gera um número aleatório entre 0 e 10
-const randomNumber = Math.floor(Math.random() * 11);
+let randomNumber = Math.floor(Math.random() * 11); // Torna randomNumber mutável
 
 // Seleciona os elementos da página
 const messageElement = document.getElementById('message');
 const guessInput = document.getElementById('guess');
 const submitButton = document.getElementById('submitGuess');
+const restartButton = document.getElementById('restartGame');
 
 // Define o número máximo de tentativas
 let attemptsLeft = 3;
@@ -46,4 +47,12 @@ guessInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         submitButton.click(); // Dispara o clique do botão
     }
+});
+
+restartButton.addEventListener('click', () => {
+    randomNumber = Math.floor(Math.random() * 11); // Novo número aleatório
+    attemptsLeft = 3; // Reseta tentativas
+    messageElement.textContent = 'Tente adivinhar o número de 1 a 10 ';
+    guessInput.value = '';
+    submitButton.disabled = false;
 });
